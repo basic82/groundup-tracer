@@ -1,5 +1,7 @@
 MODULE GroundupTracer EXPORTS Main;
 
+IMPORT Math;
+
 (* A bare-bones system that works like the one in RTftGU ch. 3, and
    for a start, the implementation given in sec. 3.1-3.8 which is
    concerned with rendering a particular single-sphere scene.
@@ -68,7 +70,7 @@ PROCEDURE RenderScene () =
             ox := FLOAT (x, LONGREAL);
             oy := FLOAT (y, LONGREAL);
           END;
-          (* UNIMPLEMENTED TraceRay (red, grn, blu); *)
+          TraceRay (red, grn, blu);
           (* UNIMPLEMENTED DisplayPixel (r, c, red, grn, blu); *)
           c := c + 1.0;
         END;
@@ -76,6 +78,44 @@ PROCEDURE RenderScene () =
       END;
     END;
   END RenderScene;
+
+(* ---------------------------------------------------------------- *)
+(* Representing the single-sphere ray tracer (SingleSphere class
+   p. 72). *) 
+
+PROCEDURE TraceRay (VAR red, grn, blu : REAL) =
+  BEGIN
+    grn := bgrn; blu := bblu;
+    SphereHit ();
+    IF hitAnObject THEN
+      red := 1.0;
+    ELSE
+      red := bred;
+    END;
+  END TraceRay;
+
+(* ---------------------------------------------------------------- *)
+(* Representing spherical objects (Sphere class p. 58). *) 
+
+PROCEDURE SphereHit () =
+  BEGIN
+    WITH tmpx = ox - sphx, tmpy = oy - sphy, tmpz = oz - sphz, 
+         a = rdx * rdx + rdy * rdy + rdz * rdz, 
+         b = 2.0d0 * (tmpx * rdx + tmpy * rdy + tmpz * rdz),
+         c = tmpx * tmpx + tmpy * tmpy + tmpz * tmpz - sphr * sphr,
+         disc = b * b - 4.0d0 * a * c
+     DO
+      IF disc < 0.0d0 THEN
+        hitAnObject := FALSE;
+      ELSE
+        WITH e = Math.sqrt (disc),
+             denom = 2.0d0 * a,
+             minRoot = (-b - e) / denom, maxRoot = (-b + e) / denom
+         DO hitAnObject := minRoot > kEpsilon OR maxRoot > kEpsilon;
+        END;
+      END;
+    END;
+  END SphereHit;
 
 (* ---------------------------------------------------------------- *)
 (* Function main p. 64 *)
