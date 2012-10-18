@@ -52,13 +52,15 @@ CONST sphz : LONGREAL = 0.0d0;
 CONST sphr : LONGREAL = 85.0d0;          (* Radius *)
 
 PROCEDURE RenderScene () =
-  VAR r, c : REAL := 0.0;
+  VAR r, c : REAL;
   VAR red, grn, blu : REAL;
   BEGIN
     WITH rmax = FLOAT (vres), midRow = 0.5 * (rmax - 1.0),
          cmax = FLOAT (hres), midCol = 0.5 * (cmax - 1.0)
      DO
+      r := 0.0;
       WHILE r < rmax DO
+        c := 0.0;
         WHILE c < cmax DO
           WITH x = pixelSize * (FLOAT (c) - midCol),
                y = pixelSize * (FLOAT (r) - midRow)
