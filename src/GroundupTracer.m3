@@ -41,13 +41,15 @@ CONST pixelSize : REAL = 1.0;
 
 (* ---------------------------------------------------------------- *)
 (* Representing the single-sphere scene (World class p. 63, also
-   pp 68-9). The sphere's x- & y-coordinates are zero. *)
+   pp 68-9). *)
 
 CONST bred : REAL = 0.0;                 (* Black background *)
 CONST bgrn : REAL = 0.0;
 CONST bblu : REAL = 0.0;
-CONST sphz : LONGREAL = 0.0d0;           (* Sphere z-coord & radius *)
-CONST sphr : LONGREAL = 85.0d0;
+CONST sphx : LONGREAL = 0.0d0;           (* Centre of sphere *)
+CONST sphy : LONGREAL = 0.0d0;
+CONST sphz : LONGREAL = 0.0d0;
+CONST sphr : LONGREAL = 85.0d0;          (* Radius *)
 
 PROCEDURE RenderScene () =
   VAR r, c : REAL := 0.0;
