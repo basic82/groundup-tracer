@@ -1,6 +1,8 @@
 MODULE GroundupTracer EXPORTS Main;
 
-(* A bare-bones system that works like the one in RTftGU ch. 3.
+(* A bare-bones system that works like the one in RTftGU ch. 3, and
+   for a start, the implementation given in sec. 3.1-3.8 which is
+   concerned with rendering a particular single-sphere scene.
 
    Global variables and free-standing procedures are used here in
    place of classes (p. 62 summarizes a better, extensible
