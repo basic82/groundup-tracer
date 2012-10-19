@@ -55,14 +55,15 @@ CONST sphr : LONGREAL = 85.0d0;          (* Radius *)
 
 PROCEDURE RenderScene () =
   VAR r, c : REAL;
+  VAR imgX, imgY : INTEGER;
   VAR red, grn, blu : REAL;
   BEGIN
     WITH rmax = FLOAT (vres), midRow = 0.5 * (rmax - 1.0),
          cmax = FLOAT (hres), midCol = 0.5 * (cmax - 1.0)
      DO
-      r := 0.0;
+      r := 0.0; imgY := vres - 1;
       WHILE r < rmax DO
-        c := 0.0;
+        c := 0.0; imgX := 0;
         WHILE c < cmax DO
           WITH x = pixelSize * (FLOAT (c) - midCol),
                y = pixelSize * (FLOAT (r) - midRow)
@@ -71,10 +72,10 @@ PROCEDURE RenderScene () =
             oy := FLOAT (y, LONGREAL);
           END;
           TraceRay (red, grn, blu);
-          (* UNIMPLEMENTED DisplayPixel (r, c, red, grn, blu); *)
-          c := c + 1.0;
+          DisplayPixel (imgY, imgX, red, grn, blu);
+          c := c + 1.0; INC (imgX);
         END;
-        r := r + 1.0;
+        r := r + 1.0; DEC (imgY);
       END;
     END;
   END RenderScene;
