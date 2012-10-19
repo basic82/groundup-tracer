@@ -1,10 +1,11 @@
 MODULE GroundupTracer EXPORTS Main;
 
-IMPORT Math;
+IMPORT Math, IO;
 
-(* A bare-bones system that works like the one in RTftGU ch. 3, and
-   for a start, the implementation given in sec. 3.1-3.8 which is
-   concerned with rendering a particular single-sphere scene.
+(* A bare-bones system that works like the one in RTftGU ch. 3. In
+   particular, the implementation given in sec. 3.1-3.8 which is
+   concerned with rendering the single-sphere scene, fig. 3.18
+   (p. 70).
 
    Global variables and free-standing procedures are used here in
    place of classes (p. 62 summarizes a better, extensible
@@ -123,6 +124,7 @@ PROCEDURE SphereHit () =
    file finally (see http://netpbm.sourceforge.net/doc/ppm.html). *)
 
 VAR raster : ARRAY [0 .. vres - 1], [0 .. 3 * hres - 1] OF INTEGER;
+CONST filename : TEXT = "image.ppm";
 
 PROCEDURE DisplayPixel (y, x : INTEGER; red, grn, blu : REAL) =
   BEGIN
@@ -135,9 +137,26 @@ PROCEDURE DisplayPixel (y, x : INTEGER; red, grn, blu : REAL) =
     END;
   END DisplayPixel;
 
+PROCEDURE WriteImage () =
+  BEGIN
+    WITH f = IO.OpenWrite (filename) DO
+      IO.Put ("P6 ", f);
+      IO.PutInt (hres, f);
+      IO.PutChar (' ', f);
+      IO.PutInt (vres, f);
+      IO.Put (" 255\n", f);
+      FOR r := 0 TO vres - 1 DO
+        FOR c := 0 TO 3 * hres - 1 DO
+          IO.PutChar (VAL (raster[r, c], CHAR), f);
+        END;
+      END;
+    END;
+  END WriteImage;
+
 (* ---------------------------------------------------------------- *)
 (* Function main p. 64 *)
 
 BEGIN
   RenderScene ();
+  WriteImage ();
 END GroundupTracer.
