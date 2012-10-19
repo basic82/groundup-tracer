@@ -119,6 +119,23 @@ PROCEDURE SphereHit () =
   END SphereHit;
 
 (* ---------------------------------------------------------------- *)
+(* Rendering the output. Store pixel data in an array and output a PPM
+   file finally (see http://netpbm.sourceforge.net/doc/ppm.html). *)
+
+VAR raster : ARRAY [0 .. vres - 1], [0 .. 3 * hres - 1] OF INTEGER;
+
+PROCEDURE DisplayPixel (y, x : INTEGER; red, grn, blu : REAL) =
+  BEGIN
+    WITH col = x * 3,
+         max = 255.0
+     DO
+      raster[y, col] := ROUND (red * max);
+      raster[y, col + 1] := ROUND (grn * max);
+      raster[y, col + 2] := ROUND (blu * max);
+    END;
+  END DisplayPixel;
+
+(* ---------------------------------------------------------------- *)
 (* Function main p. 64 *)
 
 BEGIN
