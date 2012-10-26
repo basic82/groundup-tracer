@@ -2,7 +2,7 @@ INTERFACE Triple;
 
 TYPE 
   T = RECORD
-    i, ii, iii : LONGREAL := 0.0d0;
+    i, ii, iii : LONGREAL := 0.0d0
   END;  
 
 PROCEDURE Add (READONLY a, b : T) : T;
